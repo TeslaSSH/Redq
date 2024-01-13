@@ -68,7 +68,11 @@ def handle(msg):
     if content_type == 'text':
         command = msg['text']
 
-        if command.lower() == 'restart':
+        if command.lower() == 'start' or command == '/start':
+            bot.sendMessage(chat_id, "Welcome to Tesla SSH Bot! To continue, please verify your server ownership using /verify command.")
+            user_verification_status[chat_id] = False
+
+        elif command.lower() == 'restart':
             start_message = ("🔰 WELCOME TO TESLA SSH BOT 🔰. \n"
                              "━━━━━━━━━━━━━━━━━━━━━━━━━ \n"
                              "\n"

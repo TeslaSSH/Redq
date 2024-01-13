@@ -33,11 +33,11 @@ def add_user(username, password, days, user_info):
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
 
-    # Define custom keyboard buttons with smaller size
+    # Define custom keyboard buttons with smaller size in a single row
     keyboard = ReplyKeyboardMarkup(keyboard=[
-        [KeyboardButton(text='Restart', resize_keyboard=True)],
-        [KeyboardButton(text='Add User', resize_keyboard=True)],
-        [KeyboardButton(text='Help', resize_keyboard=True)],
+        [KeyboardButton(text='Restart', resize_keyboard=True),
+         KeyboardButton(text='Add User', resize_keyboard=True),
+         KeyboardButton(text='Help', resize_keyboard=True)],
     ], resize_keyboard=True)
 
     if content_type == 'text':

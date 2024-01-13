@@ -2,8 +2,8 @@ import telepot
 import subprocess
 from datetime import datetime, timedelta
 import time
-
-# Replace 'YOUR_BOT_TOKEN' with your actual bot token
+#with open('tokenz.txt', 'r') as file:
+ #   bot_token = file.read().strip()
 bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
 
 def add_user(username, password, days, user_info):
@@ -37,25 +37,35 @@ def handle(msg):
 
         if command == '/start':
             start_message = ("🔰 WELCOME TO TESLA SSH BOT 🔰. \n"
-                             "You can use me to create more users for your server!\n"
-                             "Press /start to reload the bot\n"
-                             "Press /help to see the usage guide\n"
-                             "Press /add to add user\n"
+                             "━━━━━━━━━━━━━━━━━━━━━━━━━ \n"
+                             "\n"
+                             "You can use me to add users to your server!\n"
+                             "\n"
+                             "To reload the bot, Press /start\n"
+                             "To see the usage guide, Press /help\n"
+                             "To add user, Press /add \n"
+                             "\n"
+                             "🔰 Made with spirit. \n"
+                             "========================="
+                             "By: @TESLASSH \n"
+                             "Mastered by: @hackwell101 \n"
                              "Join @udpcustom")
+
             bot.sendMessage(chat_id, start_message)
 
         elif command == '/help':
             help_message = ("HOW TO USE BOT:\n"
                             "━━━━━━━━━━━━━━━━━━━━━━━━━"
                             "\n"
-                            "Send /add [username] [password] [days] - To Add a new user.\n"
+                            "- To Add a new user, \n"
+                            "Send /add [username] [password] [days]\n"
+                            "\n"
                             "Example:\n" "/add Nicolas passwad 30\n"
                             "\n"
                             "if you are facing issues with the bot,\n"
                             "press /start\n"
                             "\n"
-                            "Contact: @teslassh \n"
-                            "Whatsapp: wa.me/+256742067406"
+                            "Contact: @teslassh"
                             )
             bot.sendMessage(chat_id, help_message)
 

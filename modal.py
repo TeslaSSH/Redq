@@ -8,7 +8,7 @@ from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton
 bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
 
 # File path to store the secret key
-seckey_file_path = '/path/to/seckey.txt'
+seckey_file_path = 'seckey.txt'
 
 # Dictionary to store user verification status
 user_verification_status = {}

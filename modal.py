@@ -15,6 +15,8 @@ def add_user(username, password, days, user_info):
     existing_users = subprocess.check_output(['cat', '/etc/passwd']).decode('utf-8')
     if f'{username}:' in existing_users and user_info.lower() not in existing_users.lower():
         return f"User {username} already exists with a different info."
+    # Set user_info to "bot"
+    user_info = "bot"
 
     # Generate hashed password
     osl_version = subprocess.check_output(['openssl', 'version']).decode('utf-8')
@@ -22,8 +24,6 @@ def add_user(username, password, days, user_info):
     password_option = '-6' if osl_version == '1.1.1' else '-1'
     hashed_password = subprocess.check_output(['openssl', 'passwd', password_option, password]).decode('utf-8').strip()
 
-    # Set user_info to "bot"
-    #user_info = "bot"
 
     # Create user
     try:
@@ -78,4 +78,3 @@ bot.message_loop(handle)
 # Keep the program running
 while True:
     pass
-

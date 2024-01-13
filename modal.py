@@ -2,8 +2,8 @@ import telepot
 import subprocess
 from datetime import datetime, timedelta
 import time
-#with open('tokenz.txt', 'r') as file:
- #   bot_token = file.read().strip()
+
+# Replace 'YOUR_BOT_TOKEN' with your actual bot token
 bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
 
 def add_user(username, password, days, user_info):
@@ -15,8 +15,6 @@ def add_user(username, password, days, user_info):
     existing_users = subprocess.check_output(['cat', '/etc/passwd']).decode('utf-8')
     if f'{username}:' in existing_users and user_info.lower() not in existing_users.lower():
         return f"User {username} already exists with a different info."
-    # Set user_info to "bot"
-    user_info = "bot"
 
     # Generate hashed password
     osl_version = subprocess.check_output(['openssl', 'version']).decode('utf-8')
@@ -24,13 +22,12 @@ def add_user(username, password, days, user_info):
     password_option = '-6' if osl_version == '1.1.1' else '-1'
     passs = subprocess.check_output(['openssl', 'passwd', password_option, password]).decode('utf-8').strip()
 
-
     # Create user
     try:
-        subprocess.run(['sudo', 'useradd', '-M', '-s', '/bin/false', '-e', expiration_date_str, '-K', f'PASS_MAX_DAYS={days}', '-p', passs, '-c', user_info, username], check=True)
+        subprocess.run(['sudo', 'useradd', '-M', '-s', '/bin/false', '-e', expiration_date_str, '-K', f'PASS_MAX_DAYS={days}', '-p', passs, '-c', f'{user_info},{password}', username], check=True)
         return f"User {username} added successfully!"
     except subprocess.CalledProcessError as e:
-        return f"Failed to add user{username}. Error: {e}"
+        return f"Failed to add user {username}. Error: {e}"
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
@@ -78,4 +75,3 @@ bot.message_loop(handle)
 # Keep the program running
 while True:
     pass
-

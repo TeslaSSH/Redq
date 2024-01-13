@@ -25,9 +25,6 @@ def add_user(username, password, days, user_info):
     password_option = '-6' if osl_version == '1.1.1' else '-1'
     hashed_password = subprocess.check_output(['openssl', 'passwd', password_option, password]).decode('utf-8').strip()
 
-    # Set user_info to "bot"
-    user_info = "bot"
-
     # Create user
     try:
         subprocess.run(['sudo', 'useradd', '-M', '-s', '/bin/false', '-e', expiration_date_str, '-K', f'PASS_MAX_DAYS={days}', '-p', hashed_password, '-c', user_info, username], check=True)
@@ -43,11 +40,11 @@ def handle(msg):
 
         if command.startswith('/add'):
             try:
-                _, username, password, days = command.split()
-                response = add_user(username, password, days, "bot")
+                _, username, password, days, user_info = command.split()
+                response = add_user(username, password, days, user_info)
                 bot.sendMessage(chat_id, response)
             except ValueError:
-                bot.sendMessage(chat_id, "Invalid command format. Use /add username password days")
+                bot.sendMessage(chat_id, "Invalid command format. Use /add username password days user_info")
 
 # Set the command handler
 bot.message_loop(handle)

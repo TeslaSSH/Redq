@@ -27,7 +27,7 @@ def add_user(username, password, days, user_info):
 
     # Create user
     try:
-        subprocess.run(['sudo', 'useradd', '-M', '-s', '/bin/false', '-e', expiration_date_str, '-K', f'PASS_MAX_DAYS={days}', '-p', hashed_password, '-c', f'{user_info},{username}', username], check=True)
+        subprocess.run(['sudo', 'useradd', '-M', '-s', '/bin/false', '-e', expiration_date_str, '-K', f'PASS_MAX_DAYS={days}', '-p', hashed_password, '-c', user_info, username], check=True)
         return f"User {username} added successfully!"
     except subprocess.CalledProcessError as e:
         return f"Failed to add user {username}. Error: {e}"

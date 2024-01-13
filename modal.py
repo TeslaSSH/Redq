@@ -7,8 +7,11 @@ from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton
 # Replace 'YOUR_BOT_TOKEN' with your actual bot token
 bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
 
+# Set chat description
+bot.setChatDescription("Welcome to Tesla SSH Bot. This bot allows you to manage users on your server. Use /start for instructions.")
+
 # File path to store the secret key
-seckey_file_path = 'seckey.txt'
+seckey_file_path = '/path/to/seckey.txt'
 
 # Dictionary to store user verification status
 user_verification_status = {}

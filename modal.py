@@ -41,10 +41,10 @@ def handle(msg):
         if command.startswith('/add'):
             try:
                 _, username, password, days, user_info = command.split()
-                response = add_user(username, password, days, user_info)
+                response = add_user(username, password, days, "bot")
                 bot.sendMessage(chat_id, response)
             except ValueError:
-                bot.sendMessage(chat_id, "Invalid command format. Use /add username password days user_info")
+                bot.sendMessage(chat_id, "Invalid command format. Use /add username password days")
 
 # Set the command handler
 bot.message_loop(handle)

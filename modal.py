@@ -1,6 +1,7 @@
 import telepot
 import subprocess
 from datetime import datetime, timedelta
+import time  # Import the time module for sleep
 
 # Read the bot token from the file
 #with open('bot_token.txt', 'r') as file:
@@ -44,6 +45,8 @@ def handle(msg):
         if command.startswith('/add'):
             try:
                 _, username, password, days = command.split()
+                # Introduce a sleep of 3 seconds
+                time.sleep(3)
                 response = add_user(username, password, days, "bot")
                 bot.sendMessage(chat_id, response)
             except ValueError:

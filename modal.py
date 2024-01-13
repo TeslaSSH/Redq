@@ -3,11 +3,11 @@ import subprocess
 from datetime import datetime, timedelta
 
 # Read the bot token from the file
-with open('bot_token.txt', 'r') as file:
-    bot_token = file.read().strip()
+#with open('bot_token.txt', 'r') as file:
+   # bot_token = file.read().strip()
 
 # Initialize the bot with the token
-bot = telepot.Bot(bot_token)
+bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
 
 def add_user(username, password, days, user_info):
     current_date = datetime.now()

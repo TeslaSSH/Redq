@@ -38,7 +38,6 @@ def add_user(nameuser, userpass, userdays, limiteuser):
     subprocess.run(useradd_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     return subprocess.CompletedProcess.returncode
- 
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)

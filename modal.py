@@ -67,7 +67,7 @@ def handle(msg):
                 _, username, password, days = command.split()
                 # Introduce a sleep of 3 seconds
                 time.sleep(3)
-                response = add_user(username, password, days, "bot")
+                response = add_user(username, password, days, user_info)
                 bot.sendMessage(chat_id, response)
             except ValueError:
                 bot.sendMessage(chat_id, "Invalid command format. Use /add [username] [password] [days]")

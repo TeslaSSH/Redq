@@ -1,13 +1,9 @@
 import telepot
 import subprocess
 from datetime import datetime, timedelta
-import time  # Import the time module for sleep
-
-# Read the bot token from the file
-#with open('bot_token.txt', 'r') as file:
+import time
+#with open('tokenz.txt', 'r') as file:
  #   bot_token = file.read().strip()
-
-# Initialize the bot with the token
 bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
 
 def add_user(username, password, days, user_info):
@@ -42,7 +38,26 @@ def handle(msg):
     if content_type == 'text':
         command = msg['text']
 
-        if command.startswith('/add'):
+        if command == '/start':
+            start_message = ("Hello, welcome to Tesla SSH scripts manager. "
+                             "You can use me to create more users for your server!\n"
+                             "Press /start to reload the bot\n"
+                             "Press /help to see the usage guide\n"
+                             "Press /add to add user\n"
+                             "Join @udpcustom")
+            bot.sendMessage(chat_id, start_message)
+
+        elif command == '/help':
+            help_message = ("Usage guide:\n/add [username] [password] [days] - Add a new user\n"
+                            "Example: /add Nicolas passwad 30\n"
+                            "\n"
+                            "if you are facing issues with the bot, press /start\n"
+                            "Contact: @teslassh \n"
+                            "wa.me/+256742067406"
+                            )
+            bot.sendMessage(chat_id, help_message)
+
+        elif command.startswith('/add'):
             try:
                 _, username, password, days = command.split()
                 # Introduce a sleep of 3 seconds
@@ -50,7 +65,7 @@ def handle(msg):
                 response = add_user(username, password, days, "bot")
                 bot.sendMessage(chat_id, response)
             except ValueError:
-                bot.sendMessage(chat_id, "Invalid command format. Use /add username password days")
+                bot.sendMessage(chat_id, "Invalid command format. Use /add [username] [password] [days]")
 
 # Set the command handler
 bot.message_loop(handle)

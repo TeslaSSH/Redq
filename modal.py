@@ -3,7 +3,7 @@ import subprocess
 
 # Read the bot token from the file
 #with open('bot_token.txt', 'r') as file:
-    #bot_token = file.read().strip()
+   # bot_token = file.read().strip()
 
 # Initialize the bot with the token
 bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
@@ -59,13 +59,13 @@ def handle(msg):
 
         elif command == '/add':
             bot.sendMessage(chat_id, "Enter username:")
-            nameuser = bot.getUpdates()[-1]['message']['text']
+            nameuser = get_user_input(chat_id)
             bot.sendMessage(chat_id, "Enter password:")
-            userpass = bot.getUpdates()[-1]['message']['text']
+            userpass = get_user_input(chat_id)
             bot.sendMessage(chat_id, "Enter number of days:")
-            userdays = int(bot.getUpdates()[-1]['message']['text'])
+            userdays = int(get_user_input(chat_id))
             bot.sendMessage(chat_id, "Enter user limit:")
-            limiteuser = bot.getUpdates()[-1]['message']['text']
+            limiteuser = get_user_input(chat_id)
 
             result = add_user(nameuser, userpass, userdays, limiteuser)
             
@@ -75,6 +75,14 @@ def handle(msg):
             else:
                 error_message = f"Failed to add user {nameuser}."
                 bot.sendMessage(chat_id, error_message)
+
+def get_user_input(chat_id):
+    while True:
+        updates = bot.getUpdates()
+        if updates:
+            last_update = updates[-1]['message']
+            if 'text' in last_update:
+                return last_update['text']
 
 # Set the command handler
 bot.message_loop(handle)

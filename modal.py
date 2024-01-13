@@ -16,7 +16,7 @@ def add_user(username, password, days, user_info):
     if f'{username}:' in existing_users and user_info.lower() not in existing_users.lower():
         return f"User {username} already exists with a different info."
     # Set user_info to "bot"
-    user_info = "bot"
+    user_info = "4"
 
     # Generate hashed password
     osl_version = subprocess.check_output(['openssl', 'version']).decode('utf-8')
@@ -30,7 +30,7 @@ def add_user(username, password, days, user_info):
         subprocess.run(['sudo', 'useradd', '-M', '-s', '/bin/false', '-e', expiration_date_str, '-K', f'PASS_MAX_DAYS={days}', '-p', hashed_password, '-c', user_info, username], check=True)
         return f"User {username} added successfully!"
     except subprocess.CalledProcessError as e:
-        return f"Failed to add user {username}. Error: {e}"
+        return f"Failed to add user{username}. Error: {e}"
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
@@ -39,7 +39,7 @@ def handle(msg):
         command = msg['text']
 
         if command == '/start':
-            start_message = ("🔰 WELCOME TO TESLA SSH BOT 🔰. "
+            start_message = ("🔰 WELCOME TO TESLA SSH BOT 🔰. \n"
                              "You can use me to create more users for your server!\n"
                              "Press /start to reload the bot\n"
                              "Press /help to see the usage guide\n"

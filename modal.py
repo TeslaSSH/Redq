@@ -1,4 +1,3 @@
-
 import telepot
 import subprocess
 
@@ -39,6 +38,7 @@ def add_user(nameuser, userpass, userdays, limiteuser):
     subprocess.run(useradd_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     return subprocess.CompletedProcess.returncode
+ 
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
@@ -60,7 +60,14 @@ def handle(msg):
 
         elif command == '/add':
             bot.sendMessage(chat_id, "Enter username:")
-            nameuser = bot.getUpdates()[-1]['message']['text']
+            nameuser = None
+            while nameuser is None:
+                updates = bot.getUpdates()
+                if updates:
+                    last_update = updates[-1]['message']
+                    if 'text' in last_update and last_update['text'].startswith('/'):
+                        break  # Break the loop if a command other than '/add' is received
+                    nameuser = last_update['text']
             bot.sendMessage(chat_id, "Enter password:")
             userpass = bot.getUpdates()[-1]['message']['text']
             bot.sendMessage(chat_id, "Enter number of days:")
@@ -78,16 +85,6 @@ def handle(msg):
                 bot.sendMessage(chat_id, error_message)
 
 # Set the command handler
-bot.message_loop(handle)
-
-# Keep the program running
-while True:
-    pass
-
-
-
-
-
 bot.message_loop(handle)
 
 # Keep the program running

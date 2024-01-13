@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 # Read the bot token from the file
 #with open('bot_token.txt', 'r') as file:
-   # bot_token = file.read().strip()
+ #   bot_token = file.read().strip()
 
 # Initialize the bot with the token
 bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
@@ -25,6 +25,9 @@ def add_user(username, password, days, user_info):
     password_option = '-6' if osl_version == '1.1.1' else '-1'
     hashed_password = subprocess.check_output(['openssl', 'passwd', password_option, password]).decode('utf-8').strip()
 
+    # Set user_info to "bot"
+    user_info = "bot"
+
     # Create user
     try:
         subprocess.run(['sudo', 'useradd', '-M', '-s', '/bin/false', '-e', expiration_date_str, '-K', f'PASS_MAX_DAYS={days}', '-p', hashed_password, '-c', user_info, username], check=True)
@@ -40,7 +43,7 @@ def handle(msg):
 
         if command.startswith('/add'):
             try:
-                _, username, password, days, user_info = command.split()
+                _, username, password, days = command.split()
                 response = add_user(username, password, days, "bot")
                 bot.sendMessage(chat_id, response)
             except ValueError:

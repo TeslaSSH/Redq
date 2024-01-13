@@ -8,7 +8,7 @@ from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton
 bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
 
 # File path to store the secret key
-seckey_file_path = 'seckey.txt'
+seckey_file_path = '/path/to/seckey.txt'
 
 # Dictionary to store user verification status
 user_verification_status = {}
@@ -41,10 +41,16 @@ def add_user(username, password, days, user_info, chat_id):
         server_ip = subprocess.check_output(['hostname', '-I']).decode('utf-8').strip()
 
         # Send success message with details
-        success_message = f"User {username} added successfully!\n\nServer Details:\n\n{server_ip}:1-65535@{username}:{password}"
+        success_message = f"User {username} added successfully!\n\nServer Details:\n{server_ip}:1-65535@{username}:{password}"
         return success_message
     except subprocess.CalledProcessError as e:
         return f"Failed to add user {username}. Error: {e}"
+
+def list_users():
+    # Retrieve and format user details
+    users_details = subprocess.check_output(['awk', '-F:', '/home/ {print $1 ":" $2}' '/etc/passwd']).decode('utf-8').strip().split('\n')
+    users_list = "\n".join(users_details)
+    return f"List of Users:\n\n{users_list}"
 
 def user_verified(chat_id):
     # Check if the user is verified
@@ -57,7 +63,7 @@ def verify_user(chat_id, secret_key):
 
     if secret_key == stored_secret_key:
         user_verification_status[chat_id] = True
-        return "Verification successful! You can now use /add command."
+        return "Verification successful! You can now use /add and /users commands."
     else:
         return "Verification failed. Please provide the correct secret key."
 
@@ -68,6 +74,7 @@ def handle(msg):
     keyboard = ReplyKeyboardMarkup(keyboard=[
         [KeyboardButton(text='Restart', resize_keyboard=True),
          KeyboardButton(text='Add User', resize_keyboard=True),
+         KeyboardButton(text='Users', resize_keyboard=True),
          KeyboardButton(text='Help', resize_keyboard=True)],
     ], resize_keyboard=True)
 
@@ -87,6 +94,7 @@ def handle(msg):
                              "To reload the bot, Press /start\n"
                              "To see the usage guide, Press /help\n"
                              "To add user, Press /add \n"
+                             "To view users, Press /users \n"
                              "\n"
                              "🔰 Made with spirit. \n"
                              "========================= \n"
@@ -103,6 +111,8 @@ def handle(msg):
                             "\n"
                             "- To Add a new user, \n"
                             "Send /add [username] [password] [days]\n"
+                            "- To view users, \n"
+                            "Send /users\n"
                             "\n"
                             "Example:\n" "/add Nicolas passwad 30\n"
                             "\n"
@@ -140,12 +150,18 @@ def handle(msg):
             else:
                 try:
                     _, username, password, days = command.split()
-                    # Introduce a sleep of 3 seconds
-                    time.sleep(3)
                     response = add_user(username, password, days, user_info="bot", chat_id=chat_id)
                     bot.sendMessage(chat_id, response, reply_markup=keyboard)
                 except ValueError:
                     bot.sendMessage(chat_id, "Invalid command format. Use /add [username] [password] [days]", reply_markup=keyboard)
+
+        elif command.lower() == 'users':
+            # Check if the user is verified before allowing to use /users command
+            if not user_verified(chat_id):
+                bot.sendMessage(chat_id, "You need to verify yourself first by providing the secret key using /verify command.")
+            else:
+                users_response = list_users()
+                bot.sendMessage(chat_id, users_response, reply_markup=keyboard)
 
 # Set the command handler
 bot.message_loop(handle)

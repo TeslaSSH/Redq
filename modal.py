@@ -33,17 +33,15 @@ def add_user(username, password, days, user_info):
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
 
-    # Define custom keyboard buttons
+    # Define custom keyboard buttons with smaller size
     keyboard = ReplyKeyboardMarkup(keyboard=[
-        [KeyboardButton(text='Restart')],
-        [KeyboardButton(text='Add User')],
-        [KeyboardButton(text='Help')],
-    ])
+        [KeyboardButton(text='/start', resize_keyboard=True), KeyboardButton(text='/help', resize_keyboard=True), KeyboardButton(text='/add user', resize_keyboard=True)],
+    ], resize_keyboard=True)
 
     if content_type == 'text':
         command = msg['text']
 
-        if command.lower() == 'restart':
+        if command.lower() == '/start':
             start_message = ("🔰 WELCOME TO TESLA SSH BOT 🔰. \n"
                              "━━━━━━━━━━━━━━━━━━━━━━━━━ \n"
                              "\n"
@@ -62,7 +60,7 @@ def handle(msg):
             # Send the start message with the custom keyboard
             bot.sendMessage(chat_id, start_message, reply_markup=keyboard)
 
-        elif command.lower() == 'help':
+        elif command.lower() == '/help':
             help_message = ("HOW TO USE BOT:\n"
                             "━━━━━━━━━━━━━━━━━━━━━━━━━"
                             "\n"
@@ -78,7 +76,7 @@ def handle(msg):
                             )
             bot.sendMessage(chat_id, help_message, reply_markup=keyboard)
 
-        elif command.lower() == 'add user':
+        elif command.lower() == '/add user':
             bot.sendMessage(chat_id, "To add a user, use the format: /add [username] [password] [days]", reply_markup=keyboard)
 
         elif command.startswith('/add'):

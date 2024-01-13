@@ -11,7 +11,7 @@ bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
 bot_description = ("Tesla SSH Bot allows you to manage users on your server.\n"
                    "Use /start to get started.\n"
                    "Join @udpcustom for support and updates.")
-bot.setChatDescription(chat_id, bot_description)
+bot.sendMessage(chat_id, bot_description)
 
 # File path to store the secret key
 seckey_file_path = '/path/to/seckey.txt'

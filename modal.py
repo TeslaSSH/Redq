@@ -46,22 +46,6 @@ def add_user(username, password, days, user_info, chat_id):
     except subprocess.CalledProcessError as e:
         return f"Failed to add user {username}. Error: {e}"
 
-def display_users():
-    # Display the list of users with passwords and days remaining
-    cat_users = subprocess.check_output(['cat', '/etc/passwd']).decode('utf-8').splitlines()
-    users_list = []
-
-    for line in cat_users:
-        fields = line.split(':')
-        username = fields[0]
-        password = fields[1].split(',')[1]  # Extract password
-        days_remaining = (datetime.strptime(fields[6], '%Y-%m-%d') - datetime.now()).days
-
-        user_info = fields[4].split(',')[0]
-        users_list.append(f"{username}: {password}, Days Remaining: {days_remaining}, User Info: {user_info}")
-
-    return '\n'.join(users_list)
-
 def user_verified(chat_id):
     # Check if the user is verified
     return user_verification_status.get(chat_id, False)
@@ -73,7 +57,7 @@ def verify_user(chat_id, secret_key):
 
     if secret_key == stored_secret_key:
         user_verification_status[chat_id] = True
-        return "Verification successful! You can now use /add and /users commands."
+        return "Verification successful! You can now use /add command."
     else:
         return "Verification failed. Please provide the correct secret key."
 
@@ -122,8 +106,6 @@ def handle(msg):
                             "\n"
                             "Example:\n" "/add Nicolas passwad 30\n"
                             "\n"
-                            "To display users, use /users command\n"
-                            "\n"
                             "if you are facing issues with the bot,\n"
                             "press /start\n"
                             "\n"
@@ -151,18 +133,19 @@ def handle(msg):
             else:
                 bot.sendMessage(chat_id, "To add a user, use the format: /add [username] [password] [days]", reply_markup=keyboard)
 
-        elif command.lower().startswith('/add'):
-            try:
-                _, username, password, days = command.split()
-                response = add_user(username, password, days, user_info="bot", chat_id=chat_id)
-                bot.sendMessage(chat_id, response, reply_markup=keyboard)
-            except ValueError:
-                bot.sendMessage(chat_id, "Invalid command format. Use /add [username] [password] [days]", reply_markup=keyboard)
-
-        elif command.lower() == '/users':
-            # Display the list of users
-            users_list = display_users()
-            bot.sendMessage(chat_id, users_list, reply_markup=keyboard)
+        elif command.startswith('/add'):
+            # Check if the user is verified before allowing to use /add command
+            if not user_verified(chat_id):
+                bot.sendMessage(chat_id, "You need to verify yourself first by providing the secret key using /verify command.")
+            else:
+                try:
+                    _, username, password, days = command.split()
+                    # Introduce a sleep of 3 seconds
+                    time.sleep(3)
+                    response = add_user(username, password, days, user_info="bot", chat_id=chat_id)
+                    bot.sendMessage(chat_id, response, reply_markup=keyboard)
+                except ValueError:
+                    bot.sendMessage(chat_id, "Invalid command format. Use /add [username] [password] [days]", reply_markup=keyboard)
 
 # Set the command handler
 bot.message_loop(handle)

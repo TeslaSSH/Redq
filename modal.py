@@ -1,30 +1,36 @@
 import telepot
 import subprocess
+from datetime import datetime, timedelta
 
 # Read the bot token from the file
 #with open('bot_token.txt', 'r') as file:
-  #  bot_token = file.read().strip()
+   # bot_token = file.read().strip()
 
 # Initialize the bot with the token
 bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
 
-def add_user(nameuser, userpass, userdays, limiteuser):
-    fecha = subprocess.check_output(["date", "+%d-%m-%y-%R"]).decode().strip()
-    user_exists = subprocess.call(["grep", f"{nameuser}:", "/etc/passwd", "|", "grep", "-vi", f"[a-z]{nameuser}", "|", "grep", "-v", f"[0-9]{nameuser}"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+def add_user(username, password, days, user_info):
+    current_date = datetime.now()
+    expiration_date = current_date + timedelta(days=int(days))
+    expiration_date_str = expiration_date.strftime('%Y-%m-%d')
 
-    if user_exists == 0:
-        return "User already exists"
+    # Check if the user already exists
+    existing_users = subprocess.check_output(['cat', '/etc/passwd']).decode('utf-8')
+    if f'{username}:' in existing_users and user_info.lower() not in existing_users.lower():
+        return f"User {username} already exists with a different info."
 
-    valid = subprocess.check_output(["date", '+%C%y-%m-%d', '-d', f'+{userdays} days']).decode().strip()
-    osl_v = subprocess.check_output(["openssl", "version"]).decode().split()[1][:5]
+    # Generate hashed password
+    osl_version = subprocess.check_output(['openssl', 'version']).decode('utf-8')
+    osl_version = osl_version.split()[1][:5]
+    password_option = '-6' if osl_version == '1.1.1' else '-1'
+    hashed_password = subprocess.check_output(['openssl', 'passwd', password_option, password]).decode('utf-8').strip()
 
-    if osl_v == '1.1.1':
-        pass_hash = subprocess.check_output(["openssl", "passwd", "-6", userpass]).decode().strip()
-    else:
-        pass_hash = subprocess.check_output(["openssl", "passwd", "-1", userpass]).decode().strip()
-
-    subprocess.call(["useradd", "-M", "-s", "/bin/false", "-e", valid, "-K", f"PASS_MAX_DAYS={userdays}", "-p", pass_hash, "-c", f"{limiteuser},{userpass}", nameuser], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    return f"User {nameuser} added successfully!"
+    # Create user
+    try:
+        subprocess.run(['sudo', 'useradd', '-M', '-s', '/bin/false', '-e', expiration_date_str, '-K', f'PASS_MAX_DAYS={days}', '-p', hashed_password, '-c', user_info, username], check=True)
+        return f"User {username} added successfully!"
+    except subprocess.CalledProcessError as e:
+        return f"Failed to add user {username}. Error: {e}"
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
@@ -32,53 +38,13 @@ def handle(msg):
     if content_type == 'text':
         command = msg['text']
 
-        if command == '/start':
-            welcome_message = ("Hello, welcome to Tesla SSH scripts manager. "
-                               "You can use me to create more users for your server!\n"
-                               "Press /start to reload the bot\n"
-                               "Press /help to see the usage guide\n"
-                               "Press /add to add user")
-            bot.sendMessage(chat_id, welcome_message)
-
-        elif command == '/help':
-            help_message = "Usage guide:\n/add - Add a new user"
-            bot.sendMessage(chat_id, help_message)
-
-        elif command == '/add':
-            bot.sendMessage(chat_id, "Enter username:")
-            bot.message_loop(lambda msg_user: handle_add_user(msg_user, chat_id))
-
-def handle_add_user(msg, chat_id):
-    content_type, _, _ = telepot.glance(msg)
-
-    if content_type == 'text':
-        nameuser = msg['text']
-        bot.sendMessage(chat_id, "Enter password:")
-        bot.message_loop(lambda msg_pass: handle_password(msg_pass, chat_id, nameuser))
-
-def handle_password(msg, chat_id, nameuser):
-    content_type, _, _ = telepot.glance(msg)
-
-    if content_type == 'text':
-        userpass = msg['text']
-        bot.sendMessage(chat_id, "Enter number of days:")
-        bot.message_loop(lambda msg_days: handle_days(msg_days, chat_id, nameuser, userpass))
-
-def handle_days(msg, chat_id, nameuser, userpass):
-    content_type, _, _ = telepot.glance(msg)
-
-    if content_type == 'text':
-        userdays = msg['text']
-        bot.sendMessage(chat_id, "Enter user limit:")
-        bot.message_loop(lambda msg_limit: handle_limit(msg_limit, chat_id, nameuser, userpass, userdays))
-
-def handle_limit(msg, chat_id, nameuser, userpass, userdays):
-    content_type, _, _ = telepot.glance(msg)
-
-    if content_type == 'text':
-        limiteuser = msg['text']
-        result = add_user(nameuser, userpass, userdays, limiteuser)
-        bot.sendMessage(chat_id, result)
+        if command.startswith('/add'):
+            try:
+                _, username, password, days, user_info = command.split()
+                response = add_user(username, password, days, user_info)
+                bot.sendMessage(chat_id, response)
+            except ValueError:
+                bot.sendMessage(chat_id, "Invalid command format. Use /add username password days user_info")
 
 # Set the command handler
 bot.message_loop(handle)

@@ -39,7 +39,7 @@ def handle(msg):
         command = msg['text']
 
         if command == '/start':
-            start_message = ("Hello, welcome to Tesla SSH scripts manager. "
+            start_message = ("🔰 WELCOME TO TESLA SSH BOT 🔰. "
                              "You can use me to create more users for your server!\n"
                              "Press /start to reload the bot\n"
                              "Press /help to see the usage guide\n"
@@ -48,12 +48,14 @@ def handle(msg):
             bot.sendMessage(chat_id, start_message)
 
         elif command == '/help':
-            help_message = ("Usage guide:\n/add [username] [password] [days] - Add a new user\n"
-                            "Example: /add Nicolas passwad 30\n"
+            help_message = ("**HOW TO USE BOT:**\nSend /add [username] [password] [days] - To Add a new user.\n"
+                            "Example:\n" "`/add Nicolas passwad 30`\n"
                             "\n"
-                            "if you are facing issues with the bot, press /start\n"
+                            "if you are facing issues with the bot,\n"
+                            "press /start\n"
+                            "\n"
                             "Contact: @teslassh \n"
-                            "wa.me/+256742067406"
+                            "Whatsapp: wa.me/+256742067406"
                             )
             bot.sendMessage(chat_id, help_message)
 

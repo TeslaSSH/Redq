@@ -7,26 +7,20 @@ from telepot.namedtuple import ReplyKeyboardMarkup, KeyboardButton
 # Replace 'YOUR_BOT_TOKEN' with your actual bot token
 bot = telepot.Bot('6892057864:AAErqK-yT3DVE-AcRGJqZP9Mj6fPzhrP-3M')
 
-# Load the secret key from the file
-with open('seckey.txt', 'r') as seckey_file:
-    secret_key = seckey_file.read().strip()
+# File path to store the secret key
+seckey_file_path = 'seckey.txt'
 
-# Load allowed users from the file
-allowed_users = set()
-try:
-    with open('allowed_users.txt', 'r') as allowed_users_file:
-        allowed_users = set(allowed_users_file.read().splitlines())
-except FileNotFoundError:
-    pass
+# Dictionary to store user verification status
+user_verification_status = {}
 
 def add_user(username, password, days, user_info, chat_id):
+    # Check if the user is verified
+    if not user_verified(chat_id):
+        return "You need to verify yourself first by providing the secret key using /verify command."
+
     current_date = datetime.now()
     expiration_date = current_date + timedelta(days=int(days))
     expiration_date_str = expiration_date.strftime('%Y-%m-%d')
-
-    # Check if the user is allowed
-    if str(chat_id) not in allowed_users:
-        return "You are not authorized to run this command."
 
     # Check if the user already exists
     existing_users = subprocess.check_output(['cat', '/etc/passwd']).decode('utf-8')
@@ -45,6 +39,21 @@ def add_user(username, password, days, user_info, chat_id):
         return f"User {username} added successfully!"
     except subprocess.CalledProcessError as e:
         return f"Failed to add user {username}. Error: {e}"
+
+def user_verified(chat_id):
+    # Check if the user is verified
+    return user_verification_status.get(chat_id, False)
+
+def verify_user(chat_id, secret_key):
+    # Verify the secret key against the stored key
+    with open(seckey_file_path, 'r') as seckey_file:
+        stored_secret_key = seckey_file.read().strip()
+
+    if secret_key == stored_secret_key:
+        user_verification_status[chat_id] = True
+        return "Verification successful! You can now use /add command."
+    else:
+        return "Verification failed. Please provide the correct secret key."
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
@@ -94,28 +103,43 @@ def handle(msg):
                             )
             bot.sendMessage(chat_id, help_message, reply_markup=keyboard)
 
-        elif command.lower() == 'add user':
-            # Ask for the secret key only if the user is not allowed
-            if str(chat_id) not in allowed_users:
-                bot.sendMessage(chat_id, "To add a user, enter the secret key:")
-                return
+        elif command.lower() == 'verify':
+            # Prompt user to enter the secret key for verification
+            bot.sendMessage(chat_id, "Please enter the secret key for verification:")
+            user_verification_status[chat_id] = False
 
-            bot.sendMessage(chat_id, "To add a user, use the format: /add [username] [password] [days]", reply_markup=keyboard)
-
-        elif command.startswith('/add'):
+        elif command.lower().startswith('/verify'):
             try:
-                _, username, password, days = command.split()
-                # Introduce a sleep of 3 seconds
-                time.sleep(3)
-                response = add_user(username, password, days, user_info="bot", chat_id=chat_id)
+                _, secret_key = command.split()
+                response = verify_user(chat_id, secret_key)
                 bot.sendMessage(chat_id, response, reply_markup=keyboard)
             except ValueError:
-                bot.sendMessage(chat_id, "Invalid command format. Use /add [username] [password] [days]", reply_markup=keyboard)
-                
-        elif command.lower() == secret_key.lower():
-            # Verify the secret key and add the user to allowed_users
-            allowed_users.add(str(chat_id))
-            with open('allowed_users.txt', 'a') as allowed_users_file:
-                allowed_users_file.write(f"{chat_id}\n")
-            bot.sendMessage(chat_id, "You have been verified and can now use the /add command.")
+                bot.sendMessage(chat_id, "Invalid command format. Use /verify [secret_key]", reply_markup=keyboard)
 
+        elif command.lower() == 'add user':
+            # Check if the user is verified before allowing to use /add command
+            if not user_verified(chat_id):
+                bot.sendMessage(chat_id, "You need to verify yourself first by providing the secret key using /verify command.")
+            else:
+                bot.sendMessage(chat_id, "To add a user, use the format: /add [username] [password] [days]", reply_markup=keyboard)
+
+        elif command.startswith('/add'):
+            # Check if the user is verified before allowing to use /add command
+            if not user_verified(chat_id):
+                bot.sendMessage(chat_id, "You need to verify yourself first by providing the secret key using /verify command.")
+            else:
+                try:
+                    _, username, password, days = command.split()
+                    # Introduce a sleep of 3 seconds
+                    time.sleep(3)
+                    response = add_user(username, password, days, user_info="bot", chat_id=chat_id)
+                    bot.sendMessage(chat_id, response, reply_markup=keyboard)
+                except ValueError:
+                    bot.sendMessage(chat_id, "Invalid command format. Use /add [username] [password] [days]", reply_markup=keyboard)
+
+# Set the command handler
+bot.message_loop(handle)
+
+# Keep the program running
+while True:
+    pass

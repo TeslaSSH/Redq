@@ -41,7 +41,7 @@ def add_user(username, password, days, user_info, chat_id):
         server_ip = subprocess.check_output(['hostname', '-I']).decode('utf-8').strip()
 
         # Send success message with details
-        success_message = f"User {username} added successfully!\n\nServer Details:\n{server_ip}:1-65535@{username}:{password}"
+        success_message = f"User {username} added successfully!\n\nServer Details:\n\n{server_ip}:1-65535@{username}:{password}"
         return success_message
     except subprocess.CalledProcessError as e:
         return f"Failed to add user {username}. Error: {e}"

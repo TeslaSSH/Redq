@@ -59,14 +59,7 @@ def handle(msg):
 
         elif command == '/add':
             bot.sendMessage(chat_id, "Enter username:")
-            nameuser = None
-            while nameuser is None:
-                updates = bot.getUpdates()
-                if updates:
-                    last_update = updates[-1]['message']
-                    if 'text' in last_update and last_update['text'].startswith('/'):
-                        break  # Break the loop if a command other than '/add' is received
-                    nameuser = last_update['text']
+            nameuser = bot.getUpdates()[-1]['message']['text']
             bot.sendMessage(chat_id, "Enter password:")
             userpass = bot.getUpdates()[-1]['message']['text']
             bot.sendMessage(chat_id, "Enter number of days:")

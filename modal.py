@@ -46,11 +46,21 @@ def add_user(username, password, days, user_info, chat_id):
     except subprocess.CalledProcessError as e:
         return f"Failed to add user {username}. Error: {e}"
 
-def list_users():
-    # Retrieve and format user details
-    users_details = subprocess.check_output(['awk', '-F:', '/home/ {print $1 ":" $2}' '/etc/passwd']).decode('utf-8').strip().split('\n')
-    users_list = "\n".join(users_details)
-    return f"List of Users:\n\n{users_list}"
+def display_users():
+    # Display the list of users with passwords and days remaining
+    cat_users = subprocess.check_output(['cat', '/etc/passwd']).decode('utf-8').splitlines()
+    users_list = []
+
+    for line in cat_users:
+        fields = line.split(':')
+        username = fields[0]
+        password = fields[1].split(',')[1]  # Extract password
+        days_remaining = (datetime.strptime(fields[6], '%Y-%m-%d') - datetime.now()).days
+
+        user_info = fields[4].split(',')[0]
+        users_list.append(f"{username}: {password}, Days Remaining: {days_remaining}, User Info: {user_info}")
+
+    return '\n'.join(users_list)
 
 def user_verified(chat_id):
     # Check if the user is verified
@@ -74,7 +84,6 @@ def handle(msg):
     keyboard = ReplyKeyboardMarkup(keyboard=[
         [KeyboardButton(text='Restart', resize_keyboard=True),
          KeyboardButton(text='Add User', resize_keyboard=True),
-         KeyboardButton(text='Users', resize_keyboard=True),
          KeyboardButton(text='Help', resize_keyboard=True)],
     ], resize_keyboard=True)
 
@@ -94,7 +103,6 @@ def handle(msg):
                              "To reload the bot, Press /start\n"
                              "To see the usage guide, Press /help\n"
                              "To add user, Press /add \n"
-                             "To view users, Press /users \n"
                              "\n"
                              "🔰 Made with spirit. \n"
                              "========================= \n"
@@ -111,10 +119,10 @@ def handle(msg):
                             "\n"
                             "- To Add a new user, \n"
                             "Send /add [username] [password] [days]\n"
-                            "- To view users, \n"
-                            "Send /users\n"
                             "\n"
                             "Example:\n" "/add Nicolas passwad 30\n"
+                            "\n"
+                            "To display users, use /users command\n"
                             "\n"
                             "if you are facing issues with the bot,\n"
                             "press /start\n"
@@ -143,25 +151,18 @@ def handle(msg):
             else:
                 bot.sendMessage(chat_id, "To add a user, use the format: /add [username] [password] [days]", reply_markup=keyboard)
 
-        elif command.startswith('/add'):
-            # Check if the user is verified before allowing to use /add command
-            if not user_verified(chat_id):
-                bot.sendMessage(chat_id, "You need to verify yourself first by providing the secret key using /verify command.")
-            else:
-                try:
-                    _, username, password, days = command.split()
-                    response = add_user(username, password, days, user_info="bot", chat_id=chat_id)
-                    bot.sendMessage(chat_id, response, reply_markup=keyboard)
-                except ValueError:
-                    bot.sendMessage(chat_id, "Invalid command format. Use /add [username] [password] [days]", reply_markup=keyboard)
+        elif command.lower().startswith('/add'):
+            try:
+                _, username, password, days = command.split()
+                response = add_user(username, password, days, user_info="bot", chat_id=chat_id)
+                bot.sendMessage(chat_id, response, reply_markup=keyboard)
+            except ValueError:
+                bot.sendMessage(chat_id, "Invalid command format. Use /add [username] [password] [days]", reply_markup=keyboard)
 
-        elif command.lower() == 'users':
-            # Check if the user is verified before allowing to use /users command
-            if not user_verified(chat_id):
-                bot.sendMessage(chat_id, "You need to verify yourself first by providing the secret key using /verify command.")
-            else:
-                users_response = list_users()
-                bot.sendMessage(chat_id, users_response, reply_markup=keyboard)
+        elif command.lower() == '/users':
+            # Display the list of users
+            users_list = display_users()
+            bot.sendMessage(chat_id, users_list, reply_markup=keyboard)
 
 # Set the command handler
 bot.message_loop(handle)

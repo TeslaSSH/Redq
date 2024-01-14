@@ -1,0 +1,11 @@
+[Unit]
+Description=TelBot service by Nicholous Owori
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python /plugins/telbots/teslbot.py
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

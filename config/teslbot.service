@@ -3,7 +3,7 @@ Description=TelBot service by Nicholous Owori
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python plugins/telbots/teslbot.py
+ExecStart=/usr/bin/python3 plugins/telbots/teslbot.py
 Restart=always
 User=root
 

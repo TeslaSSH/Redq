@@ -27,11 +27,9 @@ Tesla SSH Bot is a Telegram bot for managing users on your server. It allows you
   <img src="https://user-images.githubusercontent.com/76937659/153705486-44e6c1b2-74fa-4d44-be1c-36c8fdb83331.gif"/>
 </p>
 
-    ```bash
-    
-    rm -f ShellBot.sh; wget -O ShellBot.sh https://raw.githubusercontent.com/TeslaSSH/Redq/main/ShellBot.sh && chmod 777 ShellBot.sh && ./ShellBot.sh
-    
-    ```
+```  
+rm -f ShellBot.sh; wget -O ShellBot.sh https://raw.githubusercontent.com/TeslaSSH/Redq/main/ShellBot.sh && chmod 777 ShellBot.sh && ./ShellBot.sh
+```   
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/76937659/153705486-44e6c1b2-74fa-4d44-be1c-36c8fdb83331.gif"/>

@@ -1,8 +1,14 @@
 # Tesla SSH Bot
+---
+<center><img src="https://raw.githubusercontent.com/TeslaSSH/Tesla_UDP_custom-/main/bin/Screenshot_20231102-123852~3.png" alt="banner" width="400"/></center>
+Tesla SSH Bot is a Telegram bot for managing users on your server. It allows you perform tedious tasks on your server with ease.
 
-Tesla SSH Bot is a Telegram bot for managing users on your server. It allows you to add, remove, and list users with ease.
+---
 
 ## Prerequisites
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/76937659/153705486-44e6c1b2-74fa-4d44-be1c-36c8fdb83331.gif"/>
+</p>
 
 - Ubuntu 22.04 or above
 - Telegram account
@@ -10,7 +16,7 @@ Tesla SSH Bot is a Telegram bot for managing users on your server. It allows you
 - Secret key for bot verification (You get it from your server after installing the Bot on it)
 
 ## Installation
-
+---
 1. Go to your telegram account and create a new bot from BotFather. Follow what he tells you to do and when you succeed with the process, he will give you the bot API Token. Copy it and save somewhere for the next step. 
 
 2. Connect to your server using SSH. You can use Termius, Juice SSH or PUTTY if you are not a mobile user.
@@ -19,11 +25,19 @@ Tesla SSH Bot is a Telegram bot for managing users on your server. It allows you
 
 4. Run the installation script:
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/76937659/153705486-44e6c1b2-74fa-4d44-be1c-36c8fdb83331.gif"/>
+</p>
 
     ```bash
+    
     rm -f ShellBot.sh; wget -O ShellBot.sh https://raw.githubusercontent.com/TeslaSSH/Redq/main/ShellBot.sh && chmod 777 ShellBot.sh && ./ShellBot.sh
+    
     ```
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/76937659/153705486-44e6c1b2-74fa-4d44-be1c-36c8fdb83331.gif"/>
+</p>
 
 - Chooose an option that says "install Bot" and then follow the prompts
 

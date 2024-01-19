@@ -49,12 +49,12 @@ Tesla SSH Bot is a Telegram bot for managing users on your server. It allows you
 - To Access Bot Manager Menu on the server side, just type `bot` into the terminal
   
 ## BOT FUNCTIONALITIES
-  -
-    - Adding new users to the UDP Server Remotely without seeing terminal again!
-    - Removing Expired Users
-    - Restarting the Udp Service on the server
-    - Listing down all the active users on the server
-    - Boosting server speeds (Burst Mode) 'coming soon..'
+  
+  - Adding new users to the UDP Server Remotely without seeing terminal again!
+  - Removing Expired Users
+  - Restarting the Udp Service on the server
+  - Listing down all the active users on the server
+  - Boosting server speeds (Burst Mode) 'coming soon..'
  
   All these can be done through the bot, without leaving telegram!
 

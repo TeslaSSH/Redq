@@ -36,7 +36,7 @@ Tesla SSH Bot is a Telegram bot for managing users on your server. It allows you
 - While its a good practice to reboot a server sometimes, the current version of the bot wont run automatically after reboot. You will need to back to the server and access the bot menu. From the bot menu, select "Restart Bot"
 - To Access Bot Manager Menu on the server side, just type `bot` into the terminal
   
-- BOT FUNCTIONALITIES
+## BOT FUNCTIONALITIES
     - Adding new users to the UDP Server Remotely without seeing terminal again!
     - Removing Expired Users
     - Restarting the Udp Service on the server

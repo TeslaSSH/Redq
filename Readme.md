@@ -6,14 +6,12 @@ Tesla SSH Bot is a Telegram bot for managing users on your server. It allows you
 ---
 
 ## Prerequisites
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/76937659/153705486-44e6c1b2-74fa-4d44-be1c-36c8fdb83331.gif"/>
-</p>
 
 - Ubuntu 22.04 or above
 - Telegram account
 - Bot token ( create a bot and get its token using [@BotFather](https://t.me/BotFather) )
 - Secret key for bot verification (You get it from your server after installing the Bot on it)
+- YOU MUST HAVE INSTALLED TESLA SSH UDP SCRIPT TO INSTALL THIS BOT, Otherwise, the bot will bot install on your system.
 
 ## Installation
 ---

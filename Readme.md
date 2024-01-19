@@ -1,6 +1,6 @@
 # Tesla SSH Bot
 ---
-<center><img src="https://raw.githubusercontent.com/TeslaSSH/Redq/main/Dupes/20240117_010429.jpg" alt="banner" width="400"/></center>
+<p align="center"><img src="https://raw.githubusercontent.com/TeslaSSH/Redq/main/Dupes/20240117_010429.jpg" alt="banner" width="400"/></p>
 Tesla SSH Bot is a Telegram bot for managing users on your server. It allows you perform tedious tasks on your server with ease.
 
 ---

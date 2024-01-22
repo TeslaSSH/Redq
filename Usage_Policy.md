@@ -24,4 +24,4 @@ By using this bot, you agree to abide by these terms. We appreciate your coopera
 
 Best regards,
 
-ZERO ONE COMPUTING
+**ZERO ONE COMPUTING**

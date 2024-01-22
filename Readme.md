@@ -74,3 +74,8 @@ If you encounter any issues or have suggestions, please [open an issue](https://
  [UDP CUSTOM](t.me/udpcustom).
 
 You have an idea to add? You can be a contributer!
+
+## **Usage Policy Notice**
+
+You can download and share the bot as long as you credit us, don't modify the code, and don't use it for commercial purposes without our permission.
+To provide clarity on these terms, we are considering the use of the Creative Commons Attribution-NonCommercial-NoDerivatives (CC BY-NC-ND) license.

@@ -4,7 +4,7 @@
  / /_| |___|  _ <| |_| | | |_| | |\  | |___ 
 /____|_____|_| \_\\___/   \___/|_| \_|_____|
 
-**Usage Policy Notice**
+# **Usage Policy Notice**
 
 Dear Users,
 

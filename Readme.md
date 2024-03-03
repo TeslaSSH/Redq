@@ -57,6 +57,13 @@ rm -f ShellBot.sh; wget -O ShellBot.sh https://raw.githubusercontent.com/TeslaSS
   All these can be done through the bot, without leaving telegram!
 
 
+## What's New? 
+- Bot secret key varification removed. Will be back in the next versions
+- Bot can now run automatically after server reboot.
+- System RAM consumption rate reduced by about 49.6%
+- Faster Bot response times
+- No need to first connect to a different server in order to communicate with the server. The Bot does it crazily🤠
+
 ## Issues
 
 If you encounter any issues or have suggestions, please [open an issue](https://github.com/TeslaSSH/Redq/issues).

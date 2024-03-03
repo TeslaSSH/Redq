@@ -63,6 +63,8 @@ rm -f ShellBot.sh; wget -O ShellBot.sh https://raw.githubusercontent.com/TeslaSS
 - System RAM consumption rate reduced by about 49.6%
 - Faster Bot response times
 - No need to first connect to a different server in order to communicate with the server. The Bot does it crazily🤠
+- Can reboot Your server wirelessly. No need to use PUTTY, JUICE SSH, Termux or Termius. The Bot does it quickly.
+
 
 ## Issues
 

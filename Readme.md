@@ -11,7 +11,7 @@ Tesla SSH Bot is a Telegram bot for managing users on your server. It allows you
 - Telegram account
 - Bot token ( create a bot and get its token using [@BotFather](https://t.me/BotFather) )
 - Secret key for bot verification (You get it from your server after installing the Bot on it)
-- YOU MUST HAVE INSTALLED TESLA SSH UDP SCRIPT TO INSTALL THIS BOT, Otherwise, the bot will not install on your system.
+- YOU MUST HAVE INSTALLED ANY UDP SCRIPT TO INSTALL THIS BOT, Otherwise, the bot will attempt to first install Tesla SSH UDP Binary on your system.
 
 ## Installation
 ---
@@ -38,12 +38,12 @@ rm -f ShellBot.sh; wget -O ShellBot.sh https://raw.githubusercontent.com/TeslaSS
 - Chooose an option that says "install Bot" and then follow the prompts
 
 
-5. Now when done, go back to Telegram and open a chat with the bot you just created and then verify yourself as a super user using the `/verify` command and the secret key obtained during or after installation.
- 
+5. Now when done, go back to Telegram and open a chat with the bot you just created and start adding, removing and renewing users among others without leaving Telegram.
+   
 ## Usage
 
 - Just use the bot Buttons to interract directly with your server.
-- While its a good practice to reboot a server sometimes, the current version of the bot wont run automatically after reboot. You will need to back to the server and access the bot menu. From the bot menu, select "Restart Bot"
+- Regardless of whether you reboot the server or not, the bot will just persistently run unless stopped by you via the bot menu.
 - To Access Bot Manager Menu on the server side, just type `bot` into the terminal
   
 ## BOT FUNCTIONALITIES
@@ -62,12 +62,12 @@ rm -f ShellBot.sh; wget -O ShellBot.sh https://raw.githubusercontent.com/TeslaSS
 If you encounter any issues or have suggestions, please [open an issue](https://github.com/TeslaSSH/Redq/issues).
 
 ## Developers
-- [Tesla SSH](https://t.me/teslassh) - BotDev
+- [Tesla SSH](https://t.me/teslassh) - Bot Developer
 
-- [Ted Hackwell](https://t.me/hackwell101) - Bot Logic
+- [Ted Hackwell](https://t.me/hackwell101) - Bot Logic Organizer. 
 
 ### Contributers
-- Nicholas Owor (UG)
+- Nicholas Owor (UG) -encrypted it. 
 
 ## JOIN OUR UDP COMMUNITY
 

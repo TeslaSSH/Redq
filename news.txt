@@ -5,3 +5,5 @@ Here's whats new:
 1. Bot can now download mp3 audio files from youtube links you send to it.
 
 2. Can now Self-Update when you press the /update command
+
+By @teslassh

@@ -1,5 +1,6 @@
-version: 3.0
-SSH Server Bot
+version: 3.2
+
+TeslaSSH Bot [ vps Manager ] 
 
 Here's whats new:
 1. Bot can now download mp3 audio files from youtube links you send to it.
@@ -7,6 +8,7 @@ Here's whats new:
 2. Can now Self-Update when you press the /update command.
 
 3. Bot just got security patches. No more need to worry about user data theft.
+4. Bot just Received a /clean command to automatically remove expired users. 
 
 SOON: Bot will be automatically removing expired users
 

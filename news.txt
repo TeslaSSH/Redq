@@ -7,8 +7,15 @@ Here's whats new:
 
 2. Can now Self-Update when you press the /update command.
 
-3. Bot just got security patches. No more need to worry about user data theft.
-4. Bot just Received a /clean command to automatically remove expired users. 
+3. You can now Backup/Restore your users. [This feature helps you to easily migrate your users to a new server if the recent server died. You are highly warned to keep Backing up your users no matter what.
+
+4. You can now add restore your users all at once (in bulk) - Just open your clients.txt file and copy all its contents and restore them in the bot.
+
+5. Through the bot, you can now add a domain to your server. Make sure you set your domain to point to your server ip address.
+
+6. Bot just got security patches. No more need to worry about user data theft.
+
+7. Bot just Received a /clean command to automatically remove expired users. 
 
 SOON: Bot will be automatically removing expired users
 

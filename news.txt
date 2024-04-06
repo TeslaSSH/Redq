@@ -1,4 +1,4 @@
-version: 3.2
+version: 3.3
 
 TeslaSSH Bot [ vps Manager ] 
 
@@ -17,6 +17,6 @@ Here's whats new:
 
 7. Bot just Received a /clean command to automatically remove expired users. 
 
-SOON: Bot will be automatically removing expired users
+#On_Trend - Bot can now add/remove domain. 
 
 By: @teslassh
